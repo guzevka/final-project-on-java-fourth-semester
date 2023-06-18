@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>APARTMENTS</title>
+  <style>
+    *{
+      margin: 0 auto;
+      padding: 0;
+
+    }
+    body{
+      background-color: #F6F6F6;
+      color: #8785A2;
+      font-size: 25px;
+    }
+    .head{
+      background-color: #FFC7C7;
+      display: flex;
+      align-content: space-around;
+      align-items: center;
+    }
+    .main-block{
+      padding: 15px;
+      margin: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      align-content: center;
+    }
+    input{
+      border: 1px solid #8785A2;
+      border-radius: 10px;
+      color: #8785A2;
+      font-size: 15px;
+      padding: 10px;
+    }
+    input:hover{
+      background-color: #FFC7C7;
+      font-size:18px;
+      padding: 12px;
+    }
+  </style>
+</head>
+<body>
+<div class="head">
+  <h2>rental of premises </h2>
+</div><hr>
+<div class="main-block">
+  <div>
+    <form class="form-horizontal" th:object="${object}" th:action="@{/rents/edit}" method="post">
+      <input type="hidden" class="form-control" th:field="*{id}"/>
+      <input type="hidden" class="form-control" th:attr="name='apartment'" th:value="${object.id}"/>
+      <h3>Арендуемые апартаменты:</h3>
+      <table>
+        <tr>
+          <td>ID:</td>
+          <td th:utext="${object.id}">...</td>
+        </tr>
+        <tr>
+          <td>Название:</td>
+          <td th:utext="${object.getApartment().title}">...</td>
+        </tr>
+        <tr>
+          <td>Описание:</td>
+          <td th:utext="${object.getApartment().description}">...</td>
+        </tr>
+        <tr>
+          <td>Город:</td>
+          <td th:utext="${object.getApartment().city}">...</td>
+        </tr>
+        <tr>
+          <td>Адрес:</td>
+          <td th:utext="${object.getApartment().address}">...</td>
+        </tr>
+        <tr>
+          <td>Стоимость за сутки:</td>
+          <td id="price" th:text="${object.getApartment().price}">
+          </td>
+        </tr>
+        <tr>
+          <td>Начало пользования:</td>
+          <td >
+            <input type="date" id="start_date" name="start_date" th:field="*{start_date}"/>
+            <span class="help" id="date_help"></span>
+
+          </td>
+        </tr>
+        <tr>
+          <td >Количество дней:</td>
+          <td >
+            <input type="number" id="days" min="1" max="30" name="days" step="1" th:field="*{days}"/>
+          </td>
+        </tr>
+        <tr>
+          <td th:text="${error}">Error</td>
+        </tr>
+        <tr>
+          <td><button type="submit">Арендовать</button></td>
+        </tr>
+      </table>
+
+    </form>
+  </div>
+</div>
+
+</body>
+</html>

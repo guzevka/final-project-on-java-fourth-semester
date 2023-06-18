@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>APARTMENTS</title>
+    <style>
+        *{
+            margin: 0 auto;
+            padding: 0;
+
+        }
+        body{
+            background-color: #F6F6F6;
+            color: #8785A2;
+            font-size: 25px;
+        }
+        .head{
+            background-color: #FFC7C7;
+            display: flex;
+            align-content: space-around;
+            align-items: center;
+        }
+        input{
+            border: 1px solid #8785A2;
+            border-radius: 10px;
+            color: #8785A2;
+            font-size: 15px;
+            padding: 10px;
+        }
+        input:hover{
+            background-color: #FFC7C7;
+            font-size:18px;
+            padding: 12px;
+        }
+    </style>
+</head>
+<body>
+<div class="head">
+    <h2>rental of premises </h2>
+</div>
+<h1>Список апартаментов пользователя</h1>
+<div>
+  <table border="1">
+    <tr>
+      <th sec:authorize="hasAuthority('ROLE_ADMIN')">Идентификатор</th>
+      <th sec:authorize="hasAuthority('ROLE_ADMIN')">ID пользователя</th>
+      <th>Апартаменты</th>
+      <th>Дата</th>
+      <th>Количество дней аренды</th>
+      <th>Вернул</th>
+      <th>Сумма аренды</th>
+    </tr>
+    <tr th:if="${#lists.size(list)!=0}" th:each ="i : ${#numbers.sequence(0,#lists.size(list)-1)}">
+      <td sec:authorize="hasAuthority('ROLE_ADMIN')" th:utext="${list[i].id}">...</td>
+      <td sec:authorize="hasAuthority('ROLE_ADMIN')" th:utext="${list[i].user.id}">...</td>
+     <td th:utext="${list[i].apartment.title}">...</td>
+      <td th:utext="${list[i].start_date}">...</td>
+      <td th:utext="${list[i].days}">...</td>
+      <td th:utext="${list[i].end_date}">...</td>
+      <td th:utext="${list[i].sum}">...</td>
+      <!--td th:utext="${sum[i]}">...</td-->
+      <td sec:authorize="hasAuthority('ROLE_USER')" th:if="${list[i].end_date}==null"><a th:href="@{/rents/{id}/return_ap(id=${list[i].id})}">Вернуть</a></td>
+      <td sec:authorize="hasAuthority('ROLE_USER')" th:if="${list[i].end_date}==null"><a th:href="@{/rents/edit/{id}(id=${list[i].id})}">Изменить</a></td>
+      <!--td sec:authorize="hasAuthority('USER')" th:if="${list[i].returned}==null"><a th:href="@{/orders/delete/{id}(id=${list[i].id})}">Отменить</a></td-->
+    </tr>
+  </table>
+</div>
+</body>
+</html>
